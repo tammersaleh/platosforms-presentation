@@ -1,14 +1,13 @@
 body { }
 
+#questions {
+  font-size: 10em;
+  text-align: center;
+}
+
 pre {
   font-family: Bitstream Vera Sans Mono;
   font-size: 1em;
-}
-
-#track > div {
-  /* width: 1024px !important; */
-  /* height: 768px !important; */
-  /* border: 1px dotted; */
 }
 
 div > ul { padding-bottom: 1em !important; }

@@ -4838,31 +4838,238 @@ jQuery.extend( jQuery.easing,
         
           <div class=" first">
             <div id="slide-0" class="content">
-              <h1>Plato's Forms</h1><h2>Some examples of Rails best practices.</h2><h3>Tammer Saleh : tammersaleh.com</h3>
+              <div class="center">
+
+# Plato's Forms
+
+## Some examples of Rails best practices.
+
+### Tammer Saleh : tammersaleh.com
+
+</div>
             </div>
           </div>
         
           <div class="">
             <div id="slide-1" class="content">
-              <h2>The importance of code you can believe in.</h2>
+              <h2>The importance of code you can believe in.</h2><p><img height="500" src="assets/burning_eyes.jpg"></p>
             </div>
           </div>
         
           <div class="">
             <div id="slide-2" class="content">
-              <p><img height="500" src="assets/burning_eyes.jpg"></p>
+              <h1>Authorization</h1>
             </div>
           </div>
         
           <div class="">
             <div id="slide-3" class="content">
-              <h1>Read the book</h1><p><img height="500" src="assets/antipatterns-cover.jpg"></p>
+              <h2>As simple as possible</h2><div class="highlight ruby code highlight"><pre><span class="no">Note</span><span class="o">.</span><span class="n">createable?</span>
+<span class="no">Note</span><span class="o">.</span><span class="n">createable_by?</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="vi">@note</span><span class="o">.</span><span class="n">readable?</span>
+<span class="vi">@note</span><span class="o">.</span><span class="n">readable_by?</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="vi">@note</span><span class="o">.</span><span class="n">editable?</span>
+<span class="vi">@note</span><span class="o">.</span><span class="n">editable_by?</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="vi">@note</span><span class="o">.</span><span class="n">destroyable?</span>
+<span class="vi">@note</span><span class="o">.</span><span class="n">destroyable_by?</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
             </div>
           </div>
         
           <div class="">
             <div id="slide-4" class="content">
-              <h1>Questions?</h1>
+              <h2>Convention over configuration</h2>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-5" class="content">
+              <h3>Template Pattern</h3><ul>
+<li>Methods are defined on ActiveRecord::Base</li>
+<li>All access is allowed by default</li>
+<li>Model overrides methods to change access rules</li>
+</ul>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-6" class="content">
+              <h3>app/model/note.rb</h3><div class="highlight ruby code highlight"><pre><span class="k">class</span> <span class="nc">Note</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">creatable_by?</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">user</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">editable_by?</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">user</span> <span class="ow">and</span> <span class="n">user</span><span class="o">.</span><span class="n">administrator?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroyable_by?</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">user</span> <span class="ow">and</span> <span class="n">user</span><span class="o">.</span><span class="n">administrator?</span>
+  <span class="k">end</span>
+</pre></div>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-7" class="content">
+              <h3>test/shoulda_macros/active_record_security.rb</h3><div class="highlight ruby code highlight"><pre><span class="k">module</span> <span class="nn">ActiveRecordSecurityMacros</span>
+  <span class="k">def</span> <span class="nf">should_be_creatable_by</span><span class="p">(</span><span class="n">test_name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">user_block</span><span class="p">)</span>
+    <span class="n">should</span> <span class="s2">"be creatable by </span><span class="si">#{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+      <span class="n">assert</span> <span class="n">subject</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">creatable_by?</span><span class="p">(</span><span class="nb">instance_eval</span><span class="p">(</span><span class="o">&amp;</span><span class="n">user_block</span><span class="p">))</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">should_not_be_creatable_by</span><span class="p">(</span><span class="n">test_name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">user_block</span><span class="p">)</span>
+    <span class="n">should</span> <span class="s2">"not be creatable by </span><span class="si">#{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+      <span class="n">assert</span> <span class="o">!</span><span class="n">subject</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">creatable_by?</span><span class="p">(</span><span class="nb">instance_eval</span><span class="p">(</span><span class="o">&amp;</span><span class="n">user_block</span><span class="p">))</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</pre></div>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-8" class="content">
+              <h3>test/unit/note_test.rb</h3><div class="highlight ruby code highlight"><pre><span class="k">class</span> <span class="nc">NoteTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="n">should_be_creatable_by</span><span class="p">(</span><span class="s2">"administrator"</span><span class="p">)</span> <span class="p">{</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:administrator</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">should_be_creatable_by</span><span class="p">(</span><span class="s2">"user"</span><span class="p">)</span>          <span class="p">{</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">should_not_be_creatable_by</span><span class="p">(</span><span class="s2">"guests"</span><span class="p">)</span>    <span class="p">{</span> <span class="kp">nil</span> <span class="p">}</span>
+<span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</pre></div>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-9" class="content">
+              <h3>test/unit/note_test.rb (cont.)</h3><div class="highlight ruby code highlight"><pre><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="n">context</span> <span class="s2">"a note"</span> <span class="k">do</span>
+  <span class="n">setup</span> <span class="p">{</span> <span class="vi">@note</span> <span class="o">=</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:note</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">subject</span> <span class="p">{</span> <span class="vi">@note</span> <span class="p">}</span>
+
+  <span class="n">should_be_destroyable_by</span><span class="p">(</span><span class="s2">"administrator"</span><span class="p">)</span> <span class="p">{</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:administrator</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">should_be_editable_by</span><span class="p">(</span><span class="s2">"administrator"</span><span class="p">)</span>    <span class="p">{</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:administrator</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">should_not_be_destroyable_by</span><span class="p">(</span><span class="s2">"owner"</span><span class="p">)</span>     <span class="p">{</span> <span class="vi">@note</span><span class="o">.</span><span class="n">owner</span> <span class="p">}</span>
+  <span class="n">should_not_be_editable_by</span><span class="p">(</span><span class="s2">"owner"</span><span class="p">)</span>        <span class="p">{</span> <span class="vi">@note</span><span class="o">.</span><span class="n">owner</span> <span class="p">}</span>
+  <span class="n">should_be_readable_by</span><span class="p">(</span><span class="s2">"guests"</span><span class="p">)</span>           <span class="p">{</span> <span class="kp">nil</span> <span class="p">}</span>
+</pre></div>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-10" class="content">
+              <p>The models own the accessors, but do not enforce them.<br></p><p>That's for the controllers.</p>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-11" class="content">
+              <h3>app/controllers/notes_controller.rb</h3><div class="highlight ruby code highlight"><pre><span class="k">class</span> <span class="nc">NotesController</span> <span class="o">&lt;</span> <span class="no">InheritedResources</span><span class="o">::</span><span class="no">Base</span>
+  <span class="kp">include</span> <span class="no">ControllerAuthorization</span>
+</pre></div>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-12" class="content">
+              <h3>lib/controller_authorization.rb</h3><div class="highlight ruby code highlight"><pre><span class="k">module</span> <span class="nn">ControllerAuthorization</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">before_filter</span> <span class="ss">:ensure_can_show_record</span><span class="p">,</span>    <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="ss">:show</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">before_filter</span> <span class="ss">:ensure_can_create_record</span><span class="p">,</span>  <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span><span class="o">]</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">before_filter</span> <span class="ss">:ensure_can_edit_record</span><span class="p">,</span>    <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="o">]</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">before_filter</span> <span class="ss">:ensure_can_destroy_record</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="ss">:destroy</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">ensure_can_create_record</span>
+    <span class="k">unless</span> <span class="n">resource_class</span><span class="o">.</span><span class="n">creatable?</span>
+      <span class="k">return</span> <span class="n">deny_guest</span> <span class="k">unless</span> <span class="n">current_user</span>
+      <span class="n">deny_access</span> <span class="ss">:flash</span> <span class="o">=&gt;</span> <span class="s2">"Go Away!"</span><span class="p">,</span> <span class="ss">:redirect</span> <span class="o">=&gt;</span> <span class="n">root_url</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</pre></div>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-13" class="content">
+              <h1>Heroku</h1>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-14" class="content">
+              <h2>Free base accounts</h2>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-15" class="content">
+              <h2>Zero server administration</h2>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-16" class="content">
+              <h2>Impossibly simple deployment</h2>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-17" class="content">
+              <h2>Easy to migrate to EY to scale</h2>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-18" class="content">
+              <h1>Gems &amp; Plugins</h1>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-19" class="content">
+              <h2>For the application</h2><ul>
+<li>
+<em>Formtastic</em>: Simple, semantic forms.</li>
+<li>
+<em>Inherited Resources</em>: RESTful controller abstraction.</li>
+<li>
+<em>Paperclip</em>: File uploads via S3.</li>
+<li>
+<em>Authlogic</em>: Authentication.</li>
+<li>
+<em>Hoptoad</em>: Production and staging error notifications.</li>
+</ul>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-20" class="content">
+              <h2>For the tests</h2><ul>
+<li>
+<em>BlueRidge</em>: JS Testing Framework.</li>
+<li>
+<em>Shoulda</em>: The best testing framework in the world.</li>
+<li>
+<em>FactoryGirl</em>: No more fixtures.</li>
+</ul>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-21" class="content">
+              <div class="center">
+
+# Read the book
+
+<img height="500" src="assets/antipatterns-cover.jpg">
+</div>
+            </div>
+          </div>
+        
+          <div class="">
+            <div id="slide-22" class="content">
+              <h1 id="questions">?</h1>
             </div>
           </div>
         
